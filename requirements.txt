@@ -1,2 +1,1 @@
-fastapi='0.109.2^'
-uvicorn
+fastapi[all]
