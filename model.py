@@ -9,8 +9,8 @@ class Mitra(BaseModel):
     PODES: bool
     KSA: bool
     IMK: bool
-    Pendalaman_Materi: int
-    Keaktifan_Pelatihan: int
+    Pendalaman_Materi: float
+    Keaktifan_Pelatihan: float
     umur: int
     alamat: str
     jk: str

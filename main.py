@@ -29,7 +29,6 @@ async def predict(mitra_predict: ListMitra):
 
         # encode data
         df_encoded = encode_data(df, encoder, pd)
-        df_encoded.to_csv("df_encoded.csv")
 
         # predict
         predictions = model.predict(df_encoded)
