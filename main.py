@@ -37,6 +37,6 @@ async def predict(mitra_predict: ListMitra):
         # buat dataframe untuk hasil prediksi
         result = pd.DataFrame({"id_mitra": df.index, "status_rekomendasi": predictions.astype(bool)})
 
-        return {"message": result.to_dict(orient="records")}
+        return {"data": result.to_dict(orient="records")}
     except Exception as e:
         return {"message": str(e)}
