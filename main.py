@@ -4,11 +4,12 @@ import pickle
 import pandas as pd
 from model import ListMitra
 from preprocessing import encode_data
+import imblearn
 
 app = FastAPI()
 
 # load model and encoder
-with open("./model/model_optimal_smote_rf.pkl", "rb") as f:
+with open("./model/rf-s4.pkl", "rb") as f:
     model = pickle.load(f)
 
 # load encoder

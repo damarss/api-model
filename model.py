@@ -15,7 +15,6 @@ class Mitra(BaseModel):
     alamat: str
     jk: str
     pendidikan: str
-    status: str
 
 class ListMitra(BaseModel):
     daftar_mitra: List[Mitra]
