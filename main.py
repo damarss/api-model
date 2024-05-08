@@ -9,7 +9,7 @@ import imblearn
 app = FastAPI()
 
 # load model and encoder
-with open("./model/rf-s4.pkl", "rb") as f:
+with open("./model/model_xgb_final.pkl", "rb") as f:
     model = pickle.load(f)
 
 # load encoder
