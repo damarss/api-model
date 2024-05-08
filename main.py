@@ -34,6 +34,9 @@ async def predict(mitra_predict: ListMitra):
         # urutkan kolom
         df_encoded = df_encoded[model.get_booster().feature_names]
 
+        return {"kolom": df_encoded.columns,
+                "model": model.get_booster().feature_names}
+
         # predict
         predictions = model.predict(df_encoded)
 
