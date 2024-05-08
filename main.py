@@ -32,7 +32,7 @@ async def predict(mitra_predict: ListMitra):
         df_encoded = encode_data(df, encoder, pd)
 
         # urutkan kolom
-        df_encoded = df_encoded[model.feature_names_in_]
+        df_encoded = df_encoded[model.get_booster().feature_names]
 
         # predict
         predictions = model.predict(df_encoded)
