@@ -16,6 +16,8 @@ with open("./model/model_xgb_final.pkl", "rb") as f:
 with open("./encoder.pkl", "rb") as f:
     encoder = pickle.load(f)
 
+columns = model.get_booster().feature_names
+
 @app.get("/")
 async def root():
     return {"message": "API Model is online!"}
@@ -32,10 +34,7 @@ async def predict(mitra_predict: ListMitra):
         df_encoded = encode_data(df, encoder, pd)
 
         # urutkan kolom
-        df_encoded = df_encoded[model.get_booster().feature_names]
-
-        return {"kolom": df_encoded.columns,
-                "model": model.get_booster().feature_names}
+        df_encoded = df_encoded[columns]
 
         # predict
         predictions = model.predict(df_encoded)
@@ -45,6 +44,5 @@ async def predict(mitra_predict: ListMitra):
 
         return {"data": result.to_dict(orient="records")}
     except Exception as e:
-        return {"kolom": df_encoded.columns,
-                "model": model.get_booster().feature_names,
+        return {"kolom": columns,
                 "message": str(e)}
