@@ -42,4 +42,6 @@ async def predict(mitra_predict: ListMitra):
 
         return {"data": result.to_dict(orient="records")}
     except Exception as e:
-        return {"message": str(e)}
+        return {"kolom": df_encoded.columns,
+                "model": model.get_booster().feature_names,
+                "message": str(e)}
