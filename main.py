@@ -31,6 +31,9 @@ async def predict(mitra_predict: ListMitra):
         # encode data
         df_encoded = encode_data(df, encoder, pd)
 
+        # urutkan kolom
+        df_encoded = df_encoded[model.feature_names_in_]
+
         # predict
         predictions = model.predict(df_encoded)
 
