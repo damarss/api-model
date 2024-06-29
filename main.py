@@ -5,6 +5,7 @@ import pandas as pd
 from model import ListMitra
 from preprocessing import encode_data, measure_distance
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 app = FastAPI()
 
@@ -66,3 +67,6 @@ async def predict(mitra_predict: ListMitra):
     except Exception as e:
         return {"kolom": columns,
                 "message": str(e)}
+    
+if __name__ == "__main__":
+    uvicorn.run(app, host='0.0.0.0', port=8000)
