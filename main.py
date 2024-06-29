@@ -7,6 +7,8 @@ from preprocessing import encode_data, measure_distance
 from fastapi.middleware.cors import CORSMiddleware
 from utils import get_latest_model_url, check_latest_model_url
 from urllib.request import Request, urlopen
+import aiohttp
+import requests
 import fsspec
 import uvicorn
 
@@ -37,15 +39,16 @@ async def root():
 @app.post("/predict/")
 async def predict(mitra_predict: ListMitra):
     daftar_mitra = mitra_predict.daftar_mitra
+
+    # ambil url model terbaru
+    url_model = get_latest_model_url()
+
+    with fsspec.open(url_model, "rb") as f:
+        model = pickle.load(f)
+
+    columns = model.get_booster().feature_names
+
     try:
-        # ambil url model terbaru
-        url_model = get_latest_model_url()
-
-        with fsspec.open(url_model, "rb") as f:
-            model = pickle.load(f)
-
-        columns = model.get_booster().feature_names
-
         # buat dataframe untuk prediksi
         df = pd.DataFrame(jsonable_encoder(daftar_mitra))
         df.set_index("id", inplace=True)
