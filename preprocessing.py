@@ -1,3 +1,7 @@
+from geopy import distance
+import pandas as pd
+import numpy as np
+
 def encode_data(input_data, encoder, pd):
     # memisahkan data dengan tipe object
     input_data_not_obj = input_data.select_dtypes(exclude=['object'])
@@ -12,3 +16,9 @@ def encode_data(input_data, encoder, pd):
     input_data_encoded = pd.concat([input_data_not_obj, input_data_obj_encoded], axis=1)
 
     return input_data_encoded
+
+def measure_distance(row):
+  kecamatan = (row['latitude'], row['longitude'])
+  satker = (row['satker_latitude'], row['satker_longitude'])
+  jarak = distance.distance(kecamatan, satker).km if kecamatan is not np.nan else np.nan
+  return pd.Series({'jarak': jarak})

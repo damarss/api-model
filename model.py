@@ -12,7 +12,10 @@ class Mitra(BaseModel):
     Pendalaman_Materi: float
     Keaktifan_Pelatihan: float
     umur: int
-    alamat: str
+    latitude: float
+    longitude: float
+    satker_latitude: float
+    satker_longitude: float
     jk: str
     pendidikan: int
 
