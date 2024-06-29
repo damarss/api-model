@@ -5,6 +5,9 @@ import pandas as pd
 from model import ListMitra
 from preprocessing import encode_data, measure_distance
 from fastapi.middleware.cors import CORSMiddleware
+from utils import get_latest_model_url, check_latest_model_url
+from urllib.request import Request, urlopen
+import fsspec
 import uvicorn
 
 app = FastAPI()
@@ -12,7 +15,6 @@ app = FastAPI()
 origins = [
     "https://organic-garbanzo-9xq4rgx4x96f9prr-3000.app.github.dev",
     "https://skripsi-ivory.vercel.app",
-    "http://localhost:8080"
     "http://localhost"
 ]
 
@@ -24,16 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# load model and encoder
-with open("./model/model_xgb_final.pkl", "rb") as f:
-    model = pickle.load(f)
-
 # load encoder
 with open("./encoder.pkl", "rb") as f:
     encoder = pickle.load(f)
-
-columns = model.get_booster().feature_names
 
 @app.get("/")
 async def root():
@@ -43,6 +38,14 @@ async def root():
 async def predict(mitra_predict: ListMitra):
     daftar_mitra = mitra_predict.daftar_mitra
     try:
+        # ambil url model terbaru
+        url_model = get_latest_model_url()
+
+        with fsspec.open(url_model, "rb") as f:
+            model = pickle.load(f)
+
+        columns = model.get_booster().feature_names
+
         # buat dataframe untuk prediksi
         df = pd.DataFrame(jsonable_encoder(daftar_mitra))
         df.set_index("id", inplace=True)
